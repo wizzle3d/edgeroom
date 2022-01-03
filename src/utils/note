@@ -1,0 +1,5 @@
+<Link to="/ask-question">
+        <button className="btn btn-blue" style={{ marginBottom: 20 }}>
+          Ask question
+        </button>
+      </Link>
