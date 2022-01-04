@@ -8,10 +8,12 @@ import Interest from "../components/Interest";
 const AllQuestions = () => {
   const { store } = useContext(Store);
   const [questions, setQuestions] = useState(null);
-  const [filteredQuestions, setFilteredQuestions] = useState();
+  const [filteredQuestions, setFilteredQuestions] = useState(null);
   const [selected, setSelected] = useState(1);
+  console.log(filteredQuestions, 2);
+  console.log(questions, 1);
   useEffect(() => {
-    axios.get("api/get-questions").then((response) => {
+    axios.get("/api/get-questions/").then((response) => {
       setQuestions(
         response.data.sort((a, b) => {
           if (a.created > b.created) return -1;
@@ -25,7 +27,7 @@ const AllQuestions = () => {
         })
       );
     });
-  }, [store?.authTokens?.access]);
+  }, []);
   return (
     <>
       {questions && (

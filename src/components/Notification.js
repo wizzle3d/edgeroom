@@ -9,14 +9,25 @@ const Notification = ({ setShowNotification }) => {
   useEffect(
     () =>
       axios
-        .get("/api/get-notifications", {
+        .get("/api/get-notifications/", {
           headers: { Authorization: `Bearer ${store?.authTokens.access}` },
         })
         .then((res) => setNotification(res.data)),
     [store?.authTokens.access]
   );
+  window.onclick = function (event) {
+    console.log(event.target);
+
+    if (
+      event.target !== document.getElementById("note-selector") &&
+      event.target !== document.getElementById("notification-wrapper")
+    ) {
+      console.log(document.getElementById("notification-wrapper"), "test done");
+      setShowNotification(false);
+    }
+  };
   return (
-    <div className="notification-wrapper">
+    <div id="notification-wrapper">
       {notification &&
         notification?.obj.map((obj) => (
           <NotificationChildren

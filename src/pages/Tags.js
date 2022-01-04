@@ -5,7 +5,7 @@ import TagComponent from "../components/TagComponent";
 const Tags = () => {
   const [tags, setTags] = useState(null);
   useEffect(() => {
-    axios.get("/api/get-tags").then((res) => setTags(res.data));
+    axios.get("/api/get-tags/").then((res) => setTags(res.data));
   }, []);
 
   return (

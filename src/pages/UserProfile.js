@@ -16,7 +16,7 @@ const UserProfile = () => {
   const { store } = useContext(Store);
   const tokenInfo = store?.authTokens && jwt_decode(store?.authTokens.access);
   const [user, setUser] = useState(null);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(1);
   const dateJoined = new Date(user?.date_joined);
   const lastSeen = new Date(user?.last_login);
   useEffect(() => {
@@ -31,18 +31,13 @@ const UserProfile = () => {
           <div className="profile-avatar-wrapper mb-2">
             <Link to={`/user?id=${user.id}`} className="link">
               <img
-                style={{ float: "", marginRight: 20 }}
+                style={{ float: "left", marginRight: 20 }}
                 src={user.avatar}
                 alt={user.name}
                 className="profile-avatar"
               />
             </Link>
-            {tokenInfo?.user_id === Number(id) && (
-              <Link to={`/user/edit/${user?.id}`} className="link">
-                Edit
-              </Link>
-            )}
-            <div style={{ float: "right", lineHeight: 1.8 }}>
+            <div style={{ float: "left", lineHeight: 1.8 }}>
               <p style={{ fontSize: 30 }}>{user.username}</p>
               <div>
                 <BsFillCalendarCheckFill
@@ -59,6 +54,15 @@ const UserProfile = () => {
                 <span>Last seen {moment(lastSeen).fromNow()}</span>
               </div>
             </div>
+            {tokenInfo?.user_id === Number(id) && (
+              <Link
+                to={`/user/edit/${user?.id}`}
+                className="btn btn-blue edit"
+                style={{ float: "right" }}
+              >
+                Edit Profile
+              </Link>
+            )}
           </div>
           <hr style={{ width: "100%" }} />
           <p className="mb-2">{user.bio}</p>

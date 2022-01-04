@@ -9,19 +9,16 @@ const Home = () => {
   const { store } = useContext(Store);
   const [questions, setQuestions] = useState(null);
   useEffect(() => {
-    axios
-      .get("api/get-questions")
-      .then((response) => {
-        setQuestions(
-          response.data.sort((a, b) => {
-            if (a.vote.likes - a.vote.dislikes > b.vote.likes - b.vote.dislikes)
-              return -1;
-            else return 1;
-          })
-        );
-      })
-      .catch((err) => console.log(err));
-  }, [store?.authTokens?.access]);
+    axios.get("/api/get-questions/").then((response) => {
+      setQuestions(
+        response.data.sort((a, b) => {
+          if (a.vote.likes - a.vote.dislikes > b.vote.likes - b.vote.dislikes)
+            return -1;
+          else return 1;
+        })
+      );
+    });
+  }, []);
   return (
     <>
       {questions && (

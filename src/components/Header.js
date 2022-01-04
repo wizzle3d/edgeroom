@@ -4,13 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdArchive } from "react-icons/io";
 import jwt_decode from "jwt-decode";
 import { Store } from "../utils/ContextAndReducer";
-import MobileNav from "./MobileNav";
 import Notification from "./Notification";
 import axios from "axios";
-import { FaTimes } from "react-icons/fa";
 import { BsList } from "react-icons/bs";
+import MobileMainNav from "./MobileMainNav";
 
-const Header = () => {
+const Header = ({ active, setActive }) => {
   const [mobileNav, setMobileNav] = useState(false);
   const navigate = useNavigate();
   const { store, dispatch } = useContext(Store);
@@ -21,7 +20,7 @@ const Header = () => {
         dispatch({ type: "AVATAR", payload: res.data.avatar });
         dispatch({ type: "INTERESTS", payload: res.data.interests });
       });
-  }, [store?.authTokens, tokenInfo?.user_id]);
+  }, [store?.authTokens, dispatch, tokenInfo?.user_id]);
   const [showNotification, setShowNotification] = useState(false);
   return (
     <>
@@ -29,7 +28,11 @@ const Header = () => {
         <div className="header-container">
           <div>
             <Link to="/">
-              <img src="../jjj.svg" alt="home" style={{ marginTop: 8 }} />
+              <img
+                src="https://res.cloudinary.com/wizzle3d/image/upload/v1641290915/vaito/jjj_qimqcb.svg"
+                alt="home"
+                style={{ marginTop: 8 }}
+              />
               <h2
                 className="word"
                 style={{ margin: 0, paddingBottom: 5, float: "right" }}
@@ -58,7 +61,14 @@ const Header = () => {
           </form>
           <div className="header-toggle">
             {store.authTokens && (
-              <img src={store?.avatar} alt="" className="avatar" />
+              <Link to={`/user/${tokenInfo?.user_id}`}>
+                <img
+                  src={store?.avatar}
+                  alt=""
+                  className="avatar"
+                  style={{ marginLeft: 10, marginTop: 5 }}
+                />
+              </Link>
             )}
             {store.authTokens && (
               <div
@@ -66,12 +76,14 @@ const Header = () => {
               >
                 <span style={{ cursor: "pointer" }}>
                   <IoMdArchive
+                    id="note-icon"
                     style={{ fontSize: 23, marginTop: 3 }}
                     onClick={() => setShowNotification(!showNotification)}
                   />
                   {store.notifications?.unseen_count > 0 && (
                     <small
                       className="new-notifications"
+                      id="note-new"
                       style={{ margin: 0 }}
                       onClick={() => setShowNotification(!showNotification)}
                     >
@@ -87,7 +99,9 @@ const Header = () => {
             <BsList
               style={{ fontSize: 25, cursor: "pointer" }}
               className={mobileNav && "liked"}
-              onClick={() => setMobileNav(!mobileNav)}
+              onClick={() => {
+                setMobileNav(!mobileNav);
+              }}
             />
           </div>
           {store?.authTokens === null ? (
@@ -107,16 +121,22 @@ const Header = () => {
               <div
                 style={{ position: "relative", marginTop: 2, marginRight: 30 }}
               >
-                <span style={{ cursor: "pointer" }}>
+                <button
+                  id="note-selector"
+                  onClick={() => setShowNotification(!showNotification)}
+                >
+                  o
+                </button>
+                <span>
                   <IoMdArchive
+                    id="noteicon"
                     style={{ fontSize: 23, marginTop: 3 }}
-                    onClick={() => setShowNotification(!showNotification)}
                   />
                   {store.notifications?.unseen_count > 0 && (
                     <small
+                      id="notii"
                       className="new-notifications"
                       style={{ margin: 0 }}
-                      onClick={() => setShowNotification(!showNotification)}
                     >
                       {store.notifications?.unseen_count}
                     </small>
@@ -137,74 +157,11 @@ const Header = () => {
         </div>
       </header>
       {mobileNav && (
-        <nav className="mobile-nav">
-          <div style={{ height: 43, borderBottom: "2px solid #dadada" }}>
-            <Link to="/" onClick={() => setMobileNav(false)}>
-              <img
-                src="../jjj.svg"
-                alt="home"
-                style={{
-                  margin: "12px 4px 10px 10px",
-                  width: 27,
-                  float: "left",
-                }}
-              />
-              <h2
-                className="word"
-                style={{
-                  margin: "4px 0px 0px 0px",
-                  paddingBottom: 5,
-                  float: "left",
-                  color: "black",
-                }}
-              >
-                edge<span style={{ color: "#ee8723" }}>Room</span>
-              </h2>
-            </Link>
-            <FaTimes
-              style={{
-                margin: "11px 4px 4px 4px",
-                fontSize: 20,
-                paddingBottom: 5,
-                float: "right",
-                cursor: "pointer",
-              }}
-              className="dislike"
-              onClick={() => setMobileNav(false)}
-            />
-          </div>
-          <div className="mobile-header-content mb-2">
-            <p>edgeRoom is a community of amazing developers.</p>
-            {store?.authTokens === null ? (
-              <>
-                <Link to="/login" onClick={() => setMobileNav(false)}>
-                  <button className="btn btn-dark">Log in</button>
-                </Link>
-                <Link to="/signup" onClick={() => setMobileNav(false)}>
-                  <button className="btn btn-blue">Create account</button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/user-questions" onClick={() => setMobileNav(false)}>
-                  <button className="btn btn-blue">My questions</button>
-                </Link>
-                <button
-                  onClick={() => {
-                    setMobileNav(false);
-                    dispatch({ type: "LOGOUT" });
-                  }}
-                  className="btn btn-dark"
-                >
-                  Log out
-                </button>
-              </>
-            )}
-          </div>
-          <div style={{ marginLeft: "10%" }}>
-            <MobileNav setMobileNav={setMobileNav} />
-          </div>
-        </nav>
+        <MobileMainNav
+          setMobileNav={setMobileNav}
+          active={active}
+          setActive={setActive}
+        />
       )}
     </>
   );

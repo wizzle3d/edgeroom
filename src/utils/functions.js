@@ -18,8 +18,8 @@ export const updateToken = (store, dispatch) => {
 
 export const checkNotifications = (store, dispatch) =>
   axios
-    .get("/api/check-notifications", {
-      headers: { Authorization: `Bearer ${store.authTokens?.access}` },
+    .get("/api/check-notifications/", {
+      headers: { Authorization: `Bearer ${store?.authTokens?.access}` },
     })
     .then((res) =>
       dispatch({

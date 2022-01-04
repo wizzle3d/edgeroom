@@ -5,8 +5,7 @@ import { HiUsers } from "react-icons/hi";
 import { FaJava, FaPython } from "react-icons/fa";
 import { SiJavascript, SiCsharp, SiPhp } from "react-icons/si";
 
-const MobileNav = ({ setMobileNav }) => {
-  const [active, setActive] = useState(0);
+const MobileNav = ({ setMobileNav, active, setActive }) => {
   return (
     <div>
       <Link to="/" onClick={() => setMobileNav(false)}>

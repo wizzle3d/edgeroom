@@ -109,32 +109,30 @@ const EditProfile = () => {
       <NotificationContainer />
       {user && (
         <div style={{ padding: "25px 20px" }}>
-          <div style={{ width: "100%" }}>
-            <div className="profile-avatar-wrapper mb-2">
-              <Link to={`/user?id=${user.id}`} className="link">
-                <img
-                  style={{ marginRight: 20 }}
-                  src={user.avatar}
-                  alt={user.name}
-                  className="profile-avatar"
+          <div className="profile-avatar-wrapper mb-2">
+            <Link to={`/user?id=${user.id}`} className="link">
+              <img
+                style={{ float: "left", marginRight: 20 }}
+                src={user.avatar}
+                alt={user.name}
+                className="profile-avatar"
+              />
+            </Link>
+            <div style={{ float: "left", lineHeight: 1.8 }}>
+              <p style={{ fontSize: 30 }}>{user.username}</p>
+              <div>
+                <BsFillCalendarCheckFill
+                  className="icon"
+                  style={{ marginTop: 6, marginRight: 10, float: "left" }}
                 />
-              </Link>
-              <div style={{ float: "right", lineHeight: 1.8 }}>
-                <p style={{ fontSize: 30 }}>{user.username}</p>
-                <div>
-                  <BsFillCalendarCheckFill
-                    className="icon"
-                    style={{ marginTop: 6, marginRight: 10, float: "left" }}
-                  />
-                  <span>Joined {moment(dateJoined).fromNow()}</span>
-                </div>
-                <div>
-                  <BsFillClockFill
-                    className="icon"
-                    style={{ marginTop: 6, marginRight: 10, float: "left" }}
-                  />
-                  <span>Last seen {moment(lastSeen).fromNow()}</span>
-                </div>
+                <span>Joined {moment(dateJoined).fromNow()}</span>
+              </div>
+              <div>
+                <BsFillClockFill
+                  className="icon"
+                  style={{ marginTop: 6, marginRight: 10, float: "left" }}
+                />
+                <span>Last seen {moment(lastSeen).fromNow()}</span>
               </div>
             </div>
           </div>

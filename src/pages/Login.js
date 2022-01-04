@@ -1,15 +1,18 @@
 import axios from "axios";
 import { loginSchema } from "../utils/Schemas";
 import { Store } from "../utils/ContextAndReducer";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const Login = () => {
   const [serverResponse, setServerResponse] = useState({});
-  const { dispatch } = useContext(Store);
+  const { store, dispatch } = useContext(Store);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (store.authTokens) navigate("/");
+  });
   const toServer = (formData) => {
     axios
       .post("/api/token/", formData)

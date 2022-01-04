@@ -13,6 +13,7 @@ from datetime import timedelta
 from pathlib import Path
 import dj_database_url
 import django_heroku
+import mimetypes
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,6 +28,7 @@ SECRET_KEY = os.environ.get('DJ_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
 
 ALLOWED_HOSTS = []
 
@@ -65,6 +67,10 @@ MIDDLEWARE = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ROOT_URLCONF = 'server.urls'
+
+
+mimetypes.add_type("image/svg+xml", ".svg", True)
+
 
 TEMPLATES = [
     {

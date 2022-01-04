@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "../utils/Schemas";
+import { useNavigate } from "react-router-dom";
+import { Store } from "../utils/ContextAndReducer";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const { store } = useContext(Store);
   const [serverResponse, setServerResponse] = useState({});
   const [part, setPart] = useState(0);
+  useEffect(() => {
+    if (store.authTokens) navigate("/");
+  });
   const toServer = async (formData) => {
     axios
       .post("api/create-user/", formData)

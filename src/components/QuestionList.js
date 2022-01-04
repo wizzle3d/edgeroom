@@ -59,9 +59,11 @@ const QuestionList = ({ question }) => {
           }}
         >
           {question.tags.map((tag) => (
-            <i className="tag" key={tag.id}>
-              {tag.name}
-            </i>
+            <Link to={`/tags/${tag.name}`} className="link">
+              <div className="tag" key={tag.id}>
+                {tag.name}
+              </div>
+            </Link>
           ))}
         </div>
         <div style={{ width: "100%" }}>

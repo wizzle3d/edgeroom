@@ -169,16 +169,24 @@ header input {
   display: flex;
   align-items: center;
 }
-.mobile-nav {
+
+#mobile-nav {
   display: none;
   position: fixed;
+  z-index: 2;
   top: 0;
-  width: 60%;
+  background-color: #25252638;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.mobile-nav {
+  width: 270px;
   height: 100%;
   z-index: 9;
   background-color: white;
-  border-right: 2px solid #dadada;
-  box-shadow: 0px 2px 5px 1px rgb(224, 224, 224);
+  border-right: 2px solid #d4d4d4;
+  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.267);
 }
 .display-off {
   display: none;
@@ -389,20 +397,29 @@ fieldset {
   object-fit: cover;
 }
 .profile-avatar-wrapper {
+  width: 100%;
   float: left;
 }
 /* Notification */
-.notification-wrapper {
+#notification-wrapper {
   width: 400px;
   height: 500px;
   box-sizing: border-box;
   background-color: #ffffff;
   position: absolute;
-  box-shadow: 0px 2px 7px 1px #cfcfcf;
+  box-shadow: 0px 2px 7px 1px #00000036;
   right: 40px;
   z-index: 3;
   top: 1;
   right: 0;
+}
+#note-selector {
+  position: absolute;
+  background-color: red;
+  padding: 5px 10px;
+  z-index: 4;
+  opacity: 0%;
+  cursor: pointer;
 }
 .comment-answer {
   padding: 1px 5px;
@@ -493,6 +510,7 @@ input:-webkit-autofill:active {
   text-align: center;
   padding: 6px 10px;
   text-decoration: none;
+  box-sizing: border-box;
   cursor: pointer;
   font-weight: 500;
 }
@@ -671,9 +689,9 @@ input:-webkit-autofill:active {
   left: 0;
 }
 .is-answered {
-  background-color: #51b156;
+  background-color: #417acf;
   color: #ffffff;
-  border: 1px solid #51b156;
+  border: 1px solid #417acf;
 }
 @media screen and (max-width: 1700px) {
   .header-container,
@@ -724,6 +742,10 @@ input:-webkit-autofill:active {
   .modal-content {
     width: 80%;
   }
+  .notification-wrapper {
+    position: fixed;
+    width: 100%;
+  }
   header .word {
     display: none;
   }
@@ -761,7 +783,7 @@ input:-webkit-autofill:active {
   .main-nav {
     display: none;
   }
-  .mobile-nav {
+  #mobile-nav {
     display: block;
   }
   .search-bar {
@@ -777,5 +799,8 @@ input:-webkit-autofill:active {
   }
   .tag-wrapper {
     width: 100%;
+  }
+  .edit {
+    float: none;
   }
 }

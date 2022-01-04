@@ -7,19 +7,19 @@ import Interest from "../components/Interest";
 
 const UserQuestions = () => {
   const [questions, setQuestions] = useState(null);
-  const { store, dispatch } = useContext(Store);
+  const { store } = useContext(Store);
+  console.log(questions);
   useEffect(() => {
     if (!store.authTokens) {
       Navigate("/login");
     } else {
       axios
-        .get("/api/get-user-questions", {
+        .get("/api/get-user-questions/", {
           headers: { Authorization: `Bearer ${store.authTokens?.access}` },
         })
         .then((res) => setQuestions(res.data));
-      // .catch(() => dispatch({ type: "LOGOUT" }));
     }
-  }, [dispatch, store.authTokens]);
+  }, [store.authTokens]);
   return (
     <div>
       {store.authTokens && questions && (

@@ -63,7 +63,7 @@ const ContextAndReducer = ({ children }) => {
       }
     }, 10000);
     return () => clearInterval(notifyinterval);
-  }, [store]);
+  }, [store.loading]);
   return (
     <Store.Provider value={{ store, dispatch }}>
       {(store.authTokens && !store.loading) || !store.authTokens

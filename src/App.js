@@ -17,42 +17,19 @@ import SearchPage from "./pages/SearchPage";
 import { NotificationContainer } from "react-notifications";
 import AllQuestions from "./pages/AllQuestions";
 import Users from "./pages/Users";
+import { useState } from "react";
 import Footer from "./components/Footer";
-import $ from "jquery";
+import Error401 from "./pages/Error401";
 
 function App() {
-  $.fn.followTo = function (pos) {
-    var $this = this,
-      $window = $(window);
-
-    $window.scroll(function (e) {
-      if ($(document).height() - $window.scrollTop() - $window.height() > pos) {
-        console.log("fixed");
-        $this.css({
-          position: "fixed",
-          top: 25,
-          color: "green",
-          height: "100%",
-        });
-      } else {
-        console.log("abs");
-        $this.css({
-          position: "absolute",
-          top: $(document).height() - pos,
-          color: "red",
-          height: "100%" - pos,
-        });
-      }
-    });
-  };
-
+  const [active, setActive] = useState(0);
   return (
     <Router>
       <ContextAndReducer>
-        <Header />
+        <Header active={active} setActive={setActive} />
         <div className="container">
           <div className="left-pane">
-            <LeftNav />
+            <LeftNav active={active} setActive={setActive} />
           </div>
           <div className="middle-pane">
             <Routes>
@@ -71,7 +48,9 @@ function App() {
               <Route path="/tags" element={<Tags />}></Route>
               <Route path="/tags/:name" element={<Tag />} />
               <Route path="/search" element={<SearchPage />} />
+
               <Route path="/403" element={<Error403 />} />
+              <Route path="*" element={<Error401 />} />
             </Routes>
           </div>
         </div>
