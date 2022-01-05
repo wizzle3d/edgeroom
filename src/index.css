@@ -25,10 +25,10 @@ p::first-letter {
 }
 code {
   background-color: #e0e0e0;
-  width: fit-content;
+  width: 100%;
   padding: 5px;
   border-radius: 3px;
-  overflow-x: scroll;
+  overflow: scroll;
 }
 hr {
   border: none;
@@ -413,9 +413,9 @@ fieldset {
   top: 1;
   right: 0;
 }
-#note-selector {
+#note-selector,
+#mobile-note-selector {
   position: absolute;
-  background-color: red;
   padding: 5px 10px;
   z-index: 4;
   opacity: 0%;
@@ -742,9 +742,12 @@ input:-webkit-autofill:active {
   .modal-content {
     width: 80%;
   }
-  .notification-wrapper {
+  #notification-wrapper {
     position: fixed;
+    top: 40px;
     width: 100%;
+    height: calc(100% - 40px);
+    z-index: 3;
   }
   header .word {
     display: none;

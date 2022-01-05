@@ -17,12 +17,11 @@ const Notification = ({ setShowNotification }) => {
   );
   window.onclick = function (event) {
     console.log(event.target);
-
     if (
       event.target !== document.getElementById("note-selector") &&
-      event.target !== document.getElementById("notification-wrapper")
+      event.target !==
+        document.getElementById("mobile-note-selector" || !event.target)
     ) {
-      console.log(document.getElementById("notification-wrapper"), "test done");
       setShowNotification(false);
     }
   };

@@ -8,7 +8,6 @@ import Interest from "../components/Interest";
 const UserQuestions = () => {
   const [questions, setQuestions] = useState(null);
   const { store } = useContext(Store);
-  console.log(questions);
   useEffect(() => {
     if (!store.authTokens) {
       Navigate("/login");

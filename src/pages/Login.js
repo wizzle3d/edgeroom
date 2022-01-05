@@ -49,7 +49,7 @@ const Login = () => {
           <div className="input-group">
             <label>Username</label>
             <input
-              type="text"
+              type="username"
               {...register("username")}
               name="username"
               onChange={() => setServerResponse({})}

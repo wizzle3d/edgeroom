@@ -195,7 +195,6 @@ def get_tag(request, name):
 @api_view(['GET'])
 def search_tags(request, name):
     tag = Tag.objects.filter(name__icontains=name)
-    print(tag)
     serializer = TagSerializer(tag, many=True).data
     return Response(serializer, status=status.HTTP_200_OK)
 

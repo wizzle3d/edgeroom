@@ -74,18 +74,22 @@ const Header = ({ active, setActive }) => {
               <div
                 style={{ position: "relative", marginTop: 2, marginRight: 10 }}
               >
+                <button
+                  id="mobile-note-selector"
+                  onClick={() => setShowNotification(!showNotification)}
+                >
+                  o
+                </button>
                 <span style={{ cursor: "pointer" }}>
                   <IoMdArchive
                     id="note-icon"
                     style={{ fontSize: 23, marginTop: 3 }}
-                    onClick={() => setShowNotification(!showNotification)}
                   />
                   {store.notifications?.unseen_count > 0 && (
                     <small
                       className="new-notifications"
                       id="note-new"
                       style={{ margin: 0 }}
-                      onClick={() => setShowNotification(!showNotification)}
                     >
                       {store.notifications?.unseen_count}
                     </small>
@@ -117,7 +121,14 @@ const Header = ({ active, setActive }) => {
             </nav>
           ) : (
             <nav className="main-nav">
-              <img src={store?.avatar} alt="" className="avatar" />
+              <Link to={`/user/${tokenInfo?.user_id}`}>
+                <img
+                  src={store?.avatar}
+                  alt=""
+                  className="avatar"
+                  style={{ marginLeft: 10, marginTop: 5 }}
+                />
+              </Link>
               <div
                 style={{ position: "relative", marginTop: 2, marginRight: 30 }}
               >

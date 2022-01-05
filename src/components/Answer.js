@@ -1,13 +1,12 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Store } from "../utils/ContextAndReducer";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 import { ImCheckmark } from "react-icons/im";
-import { useEffect } from "react/cjs/react.development";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { createNotification } from "../utils/functions";
@@ -22,13 +21,17 @@ const Answer = ({
   setQuestion,
 }) => {
   const { store } = useContext(Store);
+  const navigate = useNavigate();
   const myRef = useRef();
   const tokenInfo = store?.authTokens && jwt_decode(store?.authTokens.access);
   const executeRef = () =>
-    myRef.current?.scrollIntoView({ behavior: "smooth" });
+    myRef?.current?.scrollIntoView({ behavior: "smooth" });
   useEffect(() => {
-    if (refID === ans.id) executeRef();
-  }, [refID, ans.id]);
+    if (refID == ans?.id) {
+      executeRef();
+    }
+  }, [refID]);
+
   const [showAddComment, setShowAddComment] = useState();
   const [answer, setAnswer] = useState(ans);
   let html = answer && stateToHTML(convertFromRaw(answer.body));
@@ -46,15 +49,21 @@ const Answer = ({
       .then(createNotification("success", "Your question has been solved"));
   };
   const vote = (value) => {
-    axios
-      .put(
-        `/api/vote/${answer.id}`,
-        { type_is_question: false, value: value },
-        {
-          headers: { Authorization: `Bearer ${store?.authTokens?.access}` },
-        }
-      )
-      .then((res) => setAnswer(res.data));
+    console.log(store.authTokens);
+    if (!store.authTokens) {
+      navigate("/login");
+    } else {
+      console.log(value);
+      axios
+        .put(
+          `/api/vote/${answer.id}`,
+          { type_is_question: false, value: value },
+          {
+            headers: { Authorization: `Bearer ${store?.authTokens?.access}` },
+          }
+        )
+        .then((res) => setAnswer(res.data));
+    }
   };
   return (
     <div ref={myRef}>

@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState, useRef } from "react";
 import "react-notifications/lib/notifications.css";
 import axios from "axios";
@@ -16,6 +16,7 @@ import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import jwt_decode from "jwt-decode";
 
 const Question = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { refID } = useParams();
   const { store } = useContext(Store);
@@ -29,7 +30,7 @@ const Question = () => {
   const dateCreated = new Date(question?.created);
   const dateUpdated = new Date(question?.updated);
   const [invalid, setInvalid] = useState(false);
-  let html =
+  const html =
     question?.description && stateToHTML(convertFromRaw(question.description));
   useEffect(() => {
     executeRef();
@@ -49,15 +50,19 @@ const Question = () => {
     }
   };
   const vote = (value) => {
-    axios
-      .put(
-        `/api/vote/${question.id}`,
-        { type_is_question: true, value: value },
-        {
-          headers: { Authorization: `Bearer ${store?.authTokens?.access}` },
-        }
-      )
-      .then((res) => setQuestion(res.data));
+    if (!store.authTokens) {
+      navigate("/login");
+    } else {
+      axios
+        .put(
+          `/api/vote/${question.id}`,
+          { type_is_question: true, value: value },
+          {
+            headers: { Authorization: `Bearer ${store?.authTokens?.access}` },
+          }
+        )
+        .then((res) => setQuestion(res.data));
+    }
   };
   return (
     <div>
@@ -124,9 +129,9 @@ const Question = () => {
             }}
           >
             {question?.tags.map((tag) => (
-              <span className="tag" key={tag?.id}>
-                {tag?.name}
-              </span>
+              <Link to={`/tags/${tag.name}`} className="link" key={tag?.id}>
+                <span className="tag">{tag?.name}</span>
+              </Link>
             ))}
           </div>
           <div style={{ float: "right", width: "100%" }} className="mb-2">
@@ -170,11 +175,11 @@ const Question = () => {
             </div>
           )}
           <hr className="mb-2" />
-          {question.answers?.length > 0 && (
+          {question?.answers?.length > 0 && (
             <div>
               <label>Answers ({question.answers.length})</label>
               <div>
-                {question.answers.map((answer) => (
+                {question?.answers.map((answer) => (
                   <Answer
                     key={answer.id}
                     ans={answer}

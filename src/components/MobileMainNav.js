@@ -8,7 +8,6 @@ const MobileMainNav = ({ setMobileNav, active, setActive }) => {
   const { store, dispatch } = useContext(Store);
   window.onclick = function (event) {
     if (event.target === document.getElementById("mobile-nav")) {
-      console.log("test done");
       setMobileNav(false);
     }
   };

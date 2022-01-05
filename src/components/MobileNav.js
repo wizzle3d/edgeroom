@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { BsQuestionCircleFill, BsTagFill } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi";
 import { FaJava, FaPython } from "react-icons/fa";

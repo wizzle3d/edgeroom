@@ -32,11 +32,14 @@ const AskQuestion = () => {
   useEffect(() => {
     if (!store?.authTokens) navigate("/login");
   });
-  const searchTag = (name) =>
-    axios
-      .get(`/api/search-tags/${name}`)
-      .then((res) => setTags(res.data))
-      .catch(() => setTags(null));
+  const searchTag = (name) => {
+    if (name.length > 1) {
+      axios
+        .get(`/api/search-tags/${name}`)
+        .then((res) => setTags(res.data))
+        .catch(() => setTags(null));
+    }
+  };
 
   // Tag Modal Initialization
   let modal = document.getElementById("modal");
@@ -50,6 +53,7 @@ const AskQuestion = () => {
         .post("/api/create-question/", formData, {
           headers: { Authorization: `Bearer ${store?.authTokens?.access}` },
         })
+        .then(() => navigate("/"))
         .then(createNotification("success", "Question posted"))
         .catch((error) => setServerResponse(error.response.data));
     }
@@ -144,7 +148,7 @@ const AskQuestion = () => {
                 }}
               >
                 {tags?.length > 0 &&
-                  tags.map((tag) => (
+                  tags?.map((tag) => (
                     <TagComponent2
                       addTag={addTag}
                       tags={selectedTags}
