@@ -20,6 +20,7 @@ import Users from "./pages/Users";
 import { useState } from "react";
 import Footer from "./components/Footer";
 import Error401 from "./pages/Error401";
+import Test from "./pages/Test";
 
 function App() {
   const [active, setActive] = useState(0);
@@ -51,6 +52,7 @@ function App() {
 
               <Route path="/403" element={<Error403 />} />
               <Route path="*" element={<Error401 />} />
+              <Route path="/test" element={<Test />} />
             </Routes>
           </div>
         </div>

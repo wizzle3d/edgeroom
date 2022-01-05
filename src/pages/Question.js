@@ -7,6 +7,7 @@ import { Store } from "../utils/ContextAndReducer";
 import { createNotification, getString } from "../utils/functions";
 import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
+import draftToHtml from "draftjs-to-html";
 import TextEditor from "../components/TextEditor";
 import Answer from "../components/Answer";
 import AddComment from "../components/AddComment";
@@ -32,6 +33,7 @@ const Question = () => {
   const [invalid, setInvalid] = useState(false);
   const html =
     question?.description && stateToHTML(convertFromRaw(question.description));
+  console.log(html);
   useEffect(() => {
     executeRef();
     setQuestion(null);
@@ -67,11 +69,12 @@ const Question = () => {
   return (
     <div>
       {question && (
-        <div className="content" style={{ padding: "25px 20px" }}>
+        <div className="content" style={{ padding: "25px 0px" }}>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
+              padding: "0px 20px",
             }}
           >
             <p
@@ -88,7 +91,12 @@ const Question = () => {
               <button className="btn btn-blue">Ask question</button>
             </Link>
           </div>
-          <div className="mb-2">
+          <div
+            className="mb-2"
+            style={{
+              padding: "0px 20px",
+            }}
+          >
             <small style={{ marginRight: 5 }}>
               Asked <strong>{moment(dateCreated).fromNow()}</strong>.
             </small>
@@ -100,84 +108,96 @@ const Question = () => {
             </small>
           </div>
           <hr className="mb-1" />
-          <div className="QnA-attribute">
-            <AiFillLike
-              className={`QnA-vote ${
-                question.vote.likes.includes(tokenInfo?.user_id) && "liked"
-              }`}
-              onClick={() => vote(true)}
-            />
-            <p className="vote-count mb-1">{question.vote.likes.length}</p>
-            <AiFillDislike
-              className={`QnA-vote dislike ${
-                question.vote.dislikes.includes(tokenInfo?.user_id) &&
-                "disliked"
-              }`}
-              onClick={() => vote(false)}
-            />
-            <p className="vote-count">{question.vote.dislikes.length}</p>
-          </div>
           <div
-            className="QnA-content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-          <div
-            className="QnA-content"
             style={{
-              display: "flex",
-              flexWrap: "wrap",
+              padding: "0px 20px",
             }}
           >
-            {question?.tags.map((tag) => (
-              <Link to={`/tags/${tag.name}`} className="link" key={tag?.id}>
-                <span className="tag">{tag?.name}</span>
-              </Link>
-            ))}
-          </div>
-          <div style={{ float: "right", width: "100%" }} className="mb-2">
-            <div style={{ float: "right", marginTop: 5 }}>
-              <Link to={`/user/${question.host.id}`} className="link">
-                <p className="link">{question.host.username}</p>
-              </Link>
-            </div>
-            <Link to={`/user/${question.host.id}`} className="link">
-              <img
-                style={{ float: "right", marginRight: 5 }}
-                src={question.host.avatar}
-                alt={question.host.name}
-                className="question-avatar"
+            <div className="QnA-attribute">
+              <AiFillLike
+                className={`QnA-vote ${
+                  question.vote.likes.includes(tokenInfo?.user_id) && "liked"
+                }`}
+                onClick={() => vote(true)}
               />
-            </Link>
-          </div>
-          {question.comments &&
-            question.comments.map((comment) => (
-              <Comment key={comment.id} comment={comment} />
-            ))}
-          {store.authTokens && (
-            <div>
-              {!showAddComment && (
-                <button
-                  className="btn-link"
-                  onClick={() => setShowAddComment(true)}
-                  style={{ margin: 0 }}
-                >
-                  Add a comment
-                </button>
-              )}
-              {showAddComment && (
-                <AddComment
-                  id={question.id}
-                  setShowAddComment={setShowAddComment}
-                  setParent={setQuestion}
-                  type_is_question={true}
-                />
-              )}
+              <p className="vote-count mb-1">{question.vote.likes.length}</p>
+              <AiFillDislike
+                className={`QnA-vote dislike ${
+                  question.vote.dislikes.includes(tokenInfo?.user_id) &&
+                  "disliked"
+                }`}
+                onClick={() => vote(false)}
+              />
+              <p className="vote-count">{question.vote.dislikes.length}</p>
             </div>
-          )}
+            <div
+              className="QnA-content"
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+            <div
+              className="QnA-content"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+              }}
+            >
+              {question?.tags.map((tag) => (
+                <Link to={`/tags/${tag.name}`} className="link" key={tag?.id}>
+                  <span className="tag">{tag?.name}</span>
+                </Link>
+              ))}
+            </div>
+            <div style={{ float: "right", width: "100%" }} className="mb-2">
+              <div style={{ float: "right", marginTop: 5 }}>
+                <Link to={`/user/${question.host.id}`} className="link">
+                  <p className="link">{question.host.username}</p>
+                </Link>
+              </div>
+              <Link to={`/user/${question.host.id}`} className="link">
+                <img
+                  style={{ float: "right", marginRight: 5 }}
+                  src={question.host.avatar}
+                  alt={question.host.name}
+                  className="question-avatar"
+                />
+              </Link>
+            </div>
+            {question.comments &&
+              question.comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} />
+              ))}
+            {store.authTokens && (
+              <div>
+                {!showAddComment && (
+                  <button
+                    className="btn-link"
+                    onClick={() => setShowAddComment(true)}
+                    style={{ margin: 0 }}
+                  >
+                    Add a comment
+                  </button>
+                )}
+                {showAddComment && (
+                  <AddComment
+                    id={question.id}
+                    setShowAddComment={setShowAddComment}
+                    setParent={setQuestion}
+                    type_is_question={true}
+                  />
+                )}
+              </div>
+            )}
+          </div>
           <hr className="mb-2" />
           {question?.answers?.length > 0 && (
             <div>
-              <label>Answers ({question.answers.length})</label>
+              <p
+                style={{
+                  padding: "10px 20px",
+                }}
+              >
+                Answers ({question.answers.length})
+              </p>
               <div>
                 {question?.answers.map((answer) => (
                   <Answer
@@ -194,7 +214,12 @@ const Question = () => {
             </div>
           )}
           {store?.authTokens && (
-            <div className="input-group">
+            <div
+              className="input-group"
+              style={{
+                padding: "0px 20px",
+              }}
+            >
               <fieldset className="mb-2">
                 <legend>Post an answer</legend>
                 <TextEditor setDes={setDes} setInvalid={setInvalid} />
@@ -215,7 +240,7 @@ const Question = () => {
           )}
         </div>
       )}
-      {store?.authTokens && (
+      {question && store?.authTokens && (
         <div className="right-pane">
           <p
             className="bordered-sidebar"

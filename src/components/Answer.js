@@ -67,75 +67,81 @@ const Answer = ({
   };
   return (
     <div ref={myRef}>
-      <div className="QnA-attribute">
-        {tokenInfo?.user_id === host_id && !is_answered && (
-          <ImCheckmark
-            className="QnA-answered mb-1"
-            onClick={() => toServer()}
-            title="mark as solution"
-          />
-        )}
-        {ans.is_solution && <ImCheckmark className="QnA-answered yes mb-1" />}
-        <AiFillLike
-          className={`QnA-vote like ${
-            answer.vote.likes.includes(tokenInfo?.user_id) && "liked"
-          }`}
-          onClick={() => vote(true)}
-        />
-        <p className="vote-count mb-1">{answer.vote.likes.length}</p>
-        <AiFillDislike
-          className={`QnA-vote dislike ${
-            answer.vote.dislikes.includes(tokenInfo?.user_id) && "disliked"
-          }`}
-          onClick={() => vote(false)}
-        />
-        <p className="vote-count">{answer.vote.dislikes.length}</p>
-      </div>
       <div
-        className="QnA-content"
-        dangerouslySetInnerHTML={{ __html: html }}
-      ></div>
-      <div style={{ float: "left", width: "100%" }}>
-        <div style={{ float: "right", lineHeight: 1.2 }} className="mb-2">
-          <small>answer {moment(dateCreated).fromNow()}</small>
-          <Link to={`/user/${answer.author.id}`} className="link">
-            <p className="link">{answer.author.username}</p>
-          </Link>
-        </div>
-        <Link to={`/user/${answer.author.id}`} className="link">
-          <img
-            style={{ float: "right", marginRight: 5 }}
-            src={answer.author.avatar}
-            alt={answer.author.name}
-            className="question-avatar"
-          />
-        </Link>
-      </div>
-      {answer.comments &&
-        answer.comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-      {store.authTokens && (
-        <div>
-          {!showAddComment && (
-            <button
-              className="btn-link"
-              onClick={() => setShowAddComment(true)}
-            >
-              Add a comment
-            </button>
-          )}
-          {showAddComment && (
-            <AddComment
-              id={answer.id}
-              setShowAddComment={setShowAddComment}
-              setParent={setAnswer}
-              type_is_question={false}
-              questionID={questionID}
+        style={{
+          padding: "0px 20px",
+        }}
+      >
+        <div className="QnA-attribute">
+          {tokenInfo?.user_id === host_id && !is_answered && (
+            <ImCheckmark
+              className="QnA-answered mb-1"
+              onClick={() => toServer()}
+              title="mark as solution"
             />
           )}
+          {ans.is_solution && <ImCheckmark className="QnA-answered yes mb-1" />}
+          <AiFillLike
+            className={`QnA-vote like ${
+              answer.vote.likes.includes(tokenInfo?.user_id) && "liked"
+            }`}
+            onClick={() => vote(true)}
+          />
+          <p className="vote-count mb-1">{answer.vote.likes.length}</p>
+          <AiFillDislike
+            className={`QnA-vote dislike ${
+              answer.vote.dislikes.includes(tokenInfo?.user_id) && "disliked"
+            }`}
+            onClick={() => vote(false)}
+          />
+          <p className="vote-count">{answer.vote.dislikes.length}</p>
         </div>
-      )}
+        <div
+          className="QnA-content"
+          dangerouslySetInnerHTML={{ __html: html }}
+        ></div>
+        <div style={{ float: "left", width: "100%" }}>
+          <div style={{ float: "right", lineHeight: 1.2 }} className="mb-2">
+            <small>answer {moment(dateCreated).fromNow()}</small>
+            <Link to={`/user/${answer.author.id}`} className="link">
+              <p className="link">{answer.author.username}</p>
+            </Link>
+          </div>
+          <Link to={`/user/${answer.author.id}`} className="link">
+            <img
+              style={{ float: "right", marginRight: 5 }}
+              src={answer.author.avatar}
+              alt={answer.author.name}
+              className="question-avatar"
+            />
+          </Link>
+        </div>
+        {answer.comments &&
+          answer.comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
+        {store.authTokens && (
+          <div>
+            {!showAddComment && (
+              <button
+                className="btn-link"
+                onClick={() => setShowAddComment(true)}
+              >
+                Add a comment
+              </button>
+            )}
+            {showAddComment && (
+              <AddComment
+                id={answer.id}
+                setShowAddComment={setShowAddComment}
+                setParent={setAnswer}
+                type_is_question={false}
+                questionID={questionID}
+              />
+            )}
+          </div>
+        )}
+      </div>
       <hr style={{ width: "100%" }} />
     </div>
   );

@@ -12,7 +12,7 @@ const LeftNav = ({ active, setActive }) => {
           className={`btn-link ${active === 1 && "active"}`}
           onClick={() => setActive(1)}
         >
-          <p>Home</p>
+          <div>Home</div>
         </button>
       </Link>
       <div>
@@ -32,7 +32,7 @@ const LeftNav = ({ active, setActive }) => {
                   marginRight: 10,
                 }}
               />
-              <p style={{ marginTop: 2 }}>Questions</p>
+              <div style={{ marginTop: 2 }}>Questions</div>
             </button>
           </Link>
           <Link to="/tags">
@@ -48,7 +48,7 @@ const LeftNav = ({ active, setActive }) => {
                 }}
                 className={`icon ${active === 3 && "icon-orange"}`}
               />
-              <p style={{ marginTop: 1 }}>Tags</p>
+              <div style={{ marginTop: 1 }}>Tags</div>
             </button>
           </Link>
           <Link to="/users">
@@ -63,7 +63,7 @@ const LeftNav = ({ active, setActive }) => {
                 }}
                 className={`icon ${active === 4 && "icon-orange"}`}
               />
-              <p style={{ marginTop: 2 }}>Users</p>
+              <div style={{ marginTop: 2 }}>Users</div>
             </button>
           </Link>
         </div>
@@ -85,7 +85,7 @@ const LeftNav = ({ active, setActive }) => {
                   marginRight: 10,
                 }}
               />
-              <p style={{ marginTop: 3 }}>Javascript</p>
+              <div style={{ marginTop: 3 }}>Javascript</div>
             </button>
           </Link>
           <Link to="/tags/python">
@@ -100,7 +100,7 @@ const LeftNav = ({ active, setActive }) => {
                 }}
                 className={`icon ${active === 6 && "icon-orange"}`}
               />
-              <p style={{ marginTop: 2 }}>Python</p>
+              <div style={{ marginTop: 2 }}>Python</div>
             </button>
           </Link>
           <Link to="/tags/java">
@@ -115,7 +115,7 @@ const LeftNav = ({ active, setActive }) => {
                 }}
                 className={`icon ${active === 7 && "icon-orange"}`}
               />
-              <p style={{ marginTop: 3 }}>Java</p>
+              <div style={{ marginTop: 3 }}>Java</div>
             </button>
           </Link>
           <Link to="/tags/c-sharp">
@@ -130,7 +130,7 @@ const LeftNav = ({ active, setActive }) => {
                 }}
                 className={`icon ${active === 8 && "icon-orange"}`}
               />
-              <p style={{ marginTop: 2 }}>CSharp</p>
+              <div style={{ marginTop: 2 }}>CSharp</div>
             </button>
           </Link>
           <Link to="/tags/php">
@@ -145,7 +145,7 @@ const LeftNav = ({ active, setActive }) => {
                 }}
                 className={`icon ${active === 9 && "icon-orange"}`}
               />
-              <p style={{ marginTop: 3 }}>PHP</p>
+              <div style={{ marginTop: 3 }}>PHP</div>
             </button>
           </Link>
         </div>
