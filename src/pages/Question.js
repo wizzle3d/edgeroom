@@ -5,8 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import { Store } from "../utils/ContextAndReducer";
 import { createNotification, getString } from "../utils/functions";
-import { convertFromRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
+import DOMPurify from "dompurify";
 import draftToHtml from "draftjs-to-html";
 import TextEditor from "../components/TextEditor";
 import Answer from "../components/Answer";
@@ -31,9 +30,12 @@ const Question = () => {
   const dateCreated = new Date(question?.created);
   const dateUpdated = new Date(question?.updated);
   const [invalid, setInvalid] = useState(false);
-  const html =
-    question?.description && stateToHTML(convertFromRaw(question.description));
-  console.log(html);
+  const html = question?.description && draftToHtml(question.description);
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  };
   useEffect(() => {
     executeRef();
     setQuestion(null);
@@ -132,7 +134,7 @@ const Question = () => {
             </div>
             <div
               className="QnA-content"
-              dangerouslySetInnerHTML={{ __html: html }}
+              dangerouslySetInnerHTML={createMarkup(html)}
             />
             <div
               className="QnA-content"
@@ -224,9 +226,7 @@ const Question = () => {
                 <legend>Post an answer</legend>
                 <TextEditor setDes={setDes} setInvalid={setInvalid} />
                 {invalid && (
-                  <p className="alert alert-danger">
-                    Answer must be more than 5 characters
-                  </p>
+                  <p className="alert alert-danger">Answer is too short</p>
                 )}
               </fieldset>
               <button

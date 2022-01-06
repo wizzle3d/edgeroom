@@ -104,9 +104,7 @@ const AskQuestion = () => {
                 <TextEditor setDes={setDes} setInvalid={setInvalid} />
               </div>
               {invalid && (
-                <p className="alert alert-danger">
-                  Answer must be more than 5 characters
-                </p>
+                <p className="alert alert-danger">Description is too short</p>
               )}
               <div
                 style={{

@@ -13,7 +13,7 @@ const Notification = ({ setShowNotification }) => {
           headers: { Authorization: `Bearer ${store?.authTokens.access}` },
         })
         .then((res) => setNotification(res.data)),
-    [store?.authTokens.access]
+    []
   );
   window.onclick = function (event) {
     console.log(event.target);

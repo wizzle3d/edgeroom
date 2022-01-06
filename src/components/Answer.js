@@ -1,6 +1,4 @@
 import { useContext, useState, useRef, useEffect } from "react";
-import { convertFromRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Store } from "../utils/ContextAndReducer";
@@ -11,6 +9,8 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { createNotification } from "../utils/functions";
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
+import DOMPurify from "dompurify";
+import draftToHtml from "draftjs-to-html";
 
 const Answer = ({
   ans,
@@ -34,8 +34,13 @@ const Answer = ({
 
   const [showAddComment, setShowAddComment] = useState();
   const [answer, setAnswer] = useState(ans);
-  let html = answer && stateToHTML(convertFromRaw(answer.body));
+  let html = answer && draftToHtml(answer.body);
   let dateCreated = new Date(answer.created);
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  };
   const toServer = () => {
     axios
       .put(
@@ -66,7 +71,7 @@ const Answer = ({
     }
   };
   return (
-    <div ref={myRef}>
+    <div ref={myRef} style={{ marginTop: 10 }}>
       <div
         style={{
           padding: "0px 20px",
@@ -98,7 +103,7 @@ const Answer = ({
         </div>
         <div
           className="QnA-content"
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={createMarkup(html)}
         ></div>
         <div style={{ float: "left", width: "100%" }}>
           <div style={{ float: "right", lineHeight: 1.2 }} className="mb-2">

@@ -1,20 +1,27 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Store } from "../utils/ContextAndReducer";
 import axios from "axios";
 import { BsFillChatSquareFill } from "react-icons/bs";
 
 const NotificationChildren = ({ obj, setShowNotification }) => {
+  console.log(obj);
   const { store, dispatch } = useContext(Store);
-  const comments = obj.change.filter((chg) => chg.action_type === "comment");
+  const [comments, setComments] = useState(
+    obj?.change.filter((chg) => chg.action_type === "comment")
+  );
+
   const newComments =
-    comments.length > 0 &&
+    comments?.length > 0 &&
     obj.change.filter((chg) => chg.action_type === "comment" && !chg.is_seen);
-  const answers = obj.change.filter((chg) => chg.action_type === "answer");
+
+  const answers = obj?.change.filter((chg) => chg.action_type === "answer");
   const newAnswers =
-    answers.length > 0 &&
+    answers?.length > 0 &&
     obj.change.filter((chg) => chg.action_type === "answer" && !chg.is_seen);
   const solution = obj.change.filter((chg) => chg.action_type === "solution");
+
+  console.log(answers, newAnswers, solution);
   const toServer = (type) => {
     let formData;
     if (type === "comment-answer") {
@@ -22,7 +29,7 @@ const NotificationChildren = ({ obj, setShowNotification }) => {
     } else if (type === "solution") {
       formData = solution.filter((chg) => chg.is_seen === false);
     }
-    if (formData.length > 0) {
+    if (formData?.length > 0) {
       axios
         .put(`/api/edit-notifications/${obj.id}`, formData, {
           headers: { Authorization: `Bearer ${store?.authTokens.access}` },
@@ -41,12 +48,12 @@ const NotificationChildren = ({ obj, setShowNotification }) => {
 
   return (
     <div style={{ lineHeight: 1 }}>
-      {obj.entity_type === "question" && comments.length > 0 && (
+      {obj.entity_type === "question" && (
         <Link to={`/question/${obj.entity.id}`}>
           <button
             className={`notification-btn ${
-              (newComments.length > 0 && "note-new") ||
-              (newAnswers.length > 0 && "note-new")
+              (newComments?.length > 0 && "note-new") ||
+              (newAnswers?.length > 0 && "note-new")
             }`}
             onClick={() => toServer("comment-answer")}
           >
@@ -57,49 +64,53 @@ const NotificationChildren = ({ obj, setShowNotification }) => {
               </p>
             </div>
             <div className="notification-content">
-              {newComments.length > 0 ? (
-                <small className="comment-answer new">
-                  {newComments.length}{" "}
-                  {newComments.length > 1 ? "new comments" : "new comment"}
-                </small>
-              ) : (
-                <small className={`comment-answer`}>
-                  {comments.length}{" "}
-                  {comments.length > 1 ? "comments" : "comment"}
-                </small>
-              )}
-              {answers.length > 0 && (
-                <span style={{ marginLeft: 15 }}>
-                  {newAnswers.length > 0 ? (
+              {comments?.length > 0 && (
+                <span>
+                  {newComments?.length > 0 ? (
                     <small className="comment-answer new">
-                      {newAnswers.length}{" "}
-                      {newAnswers.length > 1 ? "new answers" : "new answer"}
+                      {newComments?.length}{" "}
+                      {newComments?.length > 1 ? "new comments" : "new comment"}
                     </small>
                   ) : (
                     <small className={`comment-answer`}>
-                      {" "}
-                      {answers.length}{" "}
-                      {answers.length > 1 ? "answers" : "answer"}
+                      {comments?.length}{" "}
+                      {comments?.length > 1 ? "comments" : "comment"}
                     </small>
                   )}
                 </span>
               )}
-              <div className="link" style={{ marginTop: 5 }}>
+              {answers?.length > 0 && (
+                <span style={{ marginLeft: comments.length > 0 ? 15 : 0 }}>
+                  {newAnswers?.length > 0 ? (
+                    <small className="comment-answer new">
+                      {newAnswers?.length}{" "}
+                      {newAnswers?.length > 1 ? "new answers" : "new answer"}
+                    </small>
+                  ) : (
+                    <small className={`comment-answer`}>
+                      {" "}
+                      {answers?.length}{" "}
+                      {answers?.length > 1 ? "answers" : "answer"}
+                    </small>
+                  )}
+                </span>
+              )}
+              <div className="link" style={{ marginTop: 5, fontSize: 14 }}>
                 <small>
-                  {obj.entity.title.slice(0, 60)}
-                  {obj.entity.title.length > 59 && "..."}
+                  {obj.entity.title.slice(0, 63)}
+                  {obj.entity.title?.length > 63 && "..."}
                 </small>
               </div>
             </div>
           </button>
         </Link>
       )}
-      {obj.entity_type === "answer" && comments.length > 0 && (
+      {obj.entity_type === "answer" && comments?.length > 0 && (
         <Link to={`/question/${obj.parent.id}/${obj.entity.id}`}>
           <button
             className={`notification-btn ${
-              (newComments.length > 0 && "note-new") ||
-              (newAnswers.length > 0 && "note-new")
+              (newComments?.length > 0 && "note-new") ||
+              (newAnswers?.length > 0 && "note-new")
             }`}
             onClick={() => toServer("comment-answer")}
           >
@@ -110,34 +121,34 @@ const NotificationChildren = ({ obj, setShowNotification }) => {
               </small>
             </div>
             <div className="notification-content">
-              {newComments.length > 0 ? (
+              {newComments?.length > 0 ? (
                 <small className="comment-answer new">
-                  {newComments.length}{" "}
-                  {newComments.length > 1 ? "new comments" : "new comment"}
+                  {newComments?.length}{" "}
+                  {newComments?.length > 1 ? "new comments" : "new comment"}
                 </small>
               ) : (
                 <small className={`comment-answer`}>
-                  {comments.length}{" "}
-                  {comments.length > 1 ? "comments" : "comment"}
+                  {comments?.length}{" "}
+                  {comments?.length > 1 ? "comments" : "comment"}
                 </small>
               )}
-              <div className="link" style={{ marginTop: 5 }}>
+              <div className="link" style={{ marginTop: 5, fontSize: 14 }}>
                 <small>
-                  {obj.parent.title.slice(0, 60)}
-                  {obj.parent.title.length > 59 && "..."}
+                  {obj.parent.title.slice(0, 63)}
+                  {obj.parent.title?.length > 63 && "..."}
                 </small>
               </div>
             </div>
           </button>
         </Link>
       )}
-      {solution.length > 0 && (
+      {solution?.length > 0 && (
         <Link to={`/question/${obj.parent.id}/${obj.entity.id}`}>
           <button
             className={`notification-btn ${
               obj.change.filter(
                 (chg) => chg.action_type === "solution" && !chg.is_seen
-              ).length > 0 && "note-new"
+              )?.length > 0 && "note-new"
             }`}
             onClick={() => toServer("solution")}
           >
@@ -149,10 +160,10 @@ const NotificationChildren = ({ obj, setShowNotification }) => {
             </div>
             <div className="notification-content">
               <small>Your answer is the solution</small>
-              <div className="link" style={{ marginTop: 5 }}>
+              <div className="link" style={{ marginTop: 5, fontSize: 14 }}>
                 <small>
-                  {obj.parent.title.slice(0, 60)}
-                  {obj.parent.title.length > 59 && "..."}
+                  {obj.parent.title.slice(0, 63)}
+                  {obj.parent.title?.length > 63 && "..."}
                 </small>
               </div>
             </div>

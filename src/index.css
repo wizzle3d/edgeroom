@@ -26,7 +26,7 @@ html {
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #aa9784;
+  background: #929292;
   border-radius: 10px;
 }
 
@@ -38,14 +38,19 @@ p {
 p::first-letter {
   text-transform: uppercase;
 }
+
 pre {
-  background-color: #e0e0e0;
-  width: 100%;
+  background-color: #e7e7e7;
   padding: 5px;
   border-radius: 3px;
-  display: flex;
-  flex-wrap: wrap;
-  overflow-x: scroll;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+code {
+  background-color: #e0e0e0;
+  padding: 5px;
+  border-radius: 3px;
+  box-sizing: border-box;
 }
 hr {
   border: none;
@@ -426,7 +431,7 @@ fieldset {
   position: absolute;
   box-shadow: 0px 2px 7px 1px #00000036;
   right: 40px;
-  z-index: 3;
+  z-index: 1;
   top: 1;
   right: 0;
 }
@@ -439,7 +444,7 @@ fieldset {
   cursor: pointer;
 }
 .comment-answer {
-  padding: 1px 5px;
+  padding: 1px 3px;
   background-color: #dbdbdb;
   border-radius: 2px;
   margin-bottom: 5px;
@@ -473,11 +478,11 @@ fieldset {
 }
 .notification-btn:hover {
   cursor: pointer;
-  background-color: #c2e3f7;
+  background-color: #e3f4ff;
   transition-duration: 0.2s;
 }
 .note-new {
-  background-color: #fff1e3;
+  background-color: #fff3d1;
 }
 .notification-attribute {
   float: left;
@@ -623,7 +628,20 @@ input:-webkit-autofill:active {
   cursor: pointer;
   transition-duration: 0.4s;
 }
-
+/* Text Editor Classes */
+.wrapper-class {
+  border-radius: 5px;
+  border: 1px solid #dadada;
+}
+.editor-class {
+  min-height: 200px;
+  height: fit-content;
+  cursor: text;
+}
+.preview {
+  height: fit-content;
+  border-radius: 2px;
+}
 /* The Modal*/
 .modal {
   display: none;
