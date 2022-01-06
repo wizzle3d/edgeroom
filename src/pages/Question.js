@@ -117,7 +117,7 @@ const Question = () => {
           >
             <div className="QnA-attribute">
               <AiFillLike
-                className={`QnA-vote ${
+                className={`QnA-vote like ${
                   question.vote.likes.includes(tokenInfo?.user_id) && "liked"
                 }`}
                 onClick={() => vote(true)}
