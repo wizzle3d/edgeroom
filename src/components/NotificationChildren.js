@@ -5,11 +5,8 @@ import axios from "axios";
 import { BsFillChatSquareFill } from "react-icons/bs";
 
 const NotificationChildren = ({ obj, setShowNotification }) => {
-  console.log(obj);
   const { store, dispatch } = useContext(Store);
-  const [comments, setComments] = useState(
-    obj?.change.filter((chg) => chg.action_type === "comment")
-  );
+  const comments = obj?.change.filter((chg) => chg.action_type === "comment");
 
   const newComments =
     comments?.length > 0 &&
@@ -21,7 +18,6 @@ const NotificationChildren = ({ obj, setShowNotification }) => {
     obj.change.filter((chg) => chg.action_type === "answer" && !chg.is_seen);
   const solution = obj.change.filter((chg) => chg.action_type === "solution");
 
-  console.log(answers, newAnswers, solution);
   const toServer = (type) => {
     let formData;
     if (type === "comment-answer") {

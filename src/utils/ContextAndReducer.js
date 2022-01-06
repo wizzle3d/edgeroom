@@ -23,8 +23,11 @@ export const reducer = (state, action) => {
       };
       return newState;
     case "LOGOUT":
-      localStorage.removeItem("authTokens", action.payload);
-      newState = { ...state, authTokens: null };
+      localStorage.removeItem("authTokens");
+      newState = {
+        authTokens: null,
+        loading: true,
+      };
       return newState;
     case "NOTIFICATIONS":
       newState = { ...state, notifications: action.payload };

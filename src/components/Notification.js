@@ -16,7 +16,6 @@ const Notification = ({ setShowNotification }) => {
     []
   );
   window.onclick = function (event) {
-    console.log(event.target);
     if (
       event.target !== document.getElementById("note-selector") &&
       event.target !==

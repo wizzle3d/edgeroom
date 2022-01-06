@@ -113,6 +113,7 @@ hr {
   width: 100%;
   height: 100%;
   background-color: rgb(224, 224, 224);
+  overflow-y: auto;
 }
 .login-register-wrapper {
   width: 350px;
@@ -429,10 +430,8 @@ fieldset {
   box-sizing: border-box;
   background-color: #ffffff;
   position: absolute;
-  box-shadow: 0px 2px 7px 1px #00000036;
-  right: 40px;
+  box-shadow: 0px 2px 7px 1px #00000042;
   z-index: 1;
-  top: 1;
   right: 0;
 }
 #note-selector,
@@ -779,7 +778,7 @@ input:-webkit-autofill:active {
   }
   #notification-wrapper {
     position: fixed;
-    top: 40px;
+    top: 42px;
     width: 100%;
     height: calc(100% - 40px);
     z-index: 3;

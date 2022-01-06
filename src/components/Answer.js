@@ -54,11 +54,9 @@ const Answer = ({
       .then(createNotification("success", "Your question has been solved"));
   };
   const vote = (value) => {
-    console.log(store.authTokens);
     if (!store.authTokens) {
       navigate("/login");
     } else {
-      console.log(value);
       axios
         .put(
           `/api/vote/${answer.id}`,

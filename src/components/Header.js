@@ -20,7 +20,7 @@ const Header = ({ active, setActive }) => {
         dispatch({ type: "AVATAR", payload: res.data.avatar });
         dispatch({ type: "INTERESTS", payload: res.data.interests });
       });
-  }, [store?.authTokens, dispatch, tokenInfo?.user_id]);
+  }, [store.authTokens, dispatch, tokenInfo?.user_id]);
   const [showNotification, setShowNotification] = useState(false);
   return (
     <>

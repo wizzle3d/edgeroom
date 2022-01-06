@@ -14,6 +14,7 @@ const Login = () => {
     if (store.authTokens) navigate("/");
   });
   const toServer = (formData) => {
+    formData = { ...formData, username: formData.username.toLowerCase() };
     axios
       .post("/api/token/", formData)
       .then((response) => {
