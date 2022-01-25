@@ -25,7 +25,7 @@ def create_user(request):
         return Response({"username": "This username has already been taken."}, status=status.HTTP_400_BAD_REQUEST)
     elif User.objects.filter(email=email.lower()):
         return Response({"email": "This email has already been used."}, status=status.HTTP_400_BAD_REQUEST)
-    user = User.objects.create(username=request.data['username'],
+    user = User.objects.create(username=request.data['username'].lower(),
                                email=request.data['email'].lower(),
                                name=request.data['name'],)
     user.set_password(request.data['password'])
