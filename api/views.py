@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 from django.utils import timezone
+from .tasks import send_reg_email, testii
 
 datetime.now(tz=timezone.utc)
 
@@ -25,13 +26,14 @@ def create_user(request):
         return Response({"username": "This username has already been taken."}, status=status.HTTP_400_BAD_REQUEST)
     elif User.objects.filter(email=email.lower()):
         return Response({"email": "This email has already been used."}, status=status.HTTP_400_BAD_REQUEST)
-    user = User.objects.create(username=request.data['username'],
+    user = User.objects.create(username=request.data['username'].lower(),
                                email=request.data['email'].lower(),
                                name=request.data['name'],)
     user.set_password(request.data['password'])
     user.save()
     notification = Notification.objects.create(receiverID=user.id)
     notification.save()
+    send_reg_email.delay(user.email)
     return Response({'message': f"Your account has been created."}, status=status.HTTP_200_OK)
 
 
@@ -345,12 +347,7 @@ def vote(request, id):
 
 @api_view(["GET"])
 def test(request):
-    questions = Question.objects.all()
-    for question in questions:
-        vote = Vote.objects.create(entity=question)
-        vote.save()
-    answers = Answer.objects.all()
-    for answer in answers:
-        vote = Vote.objects.create(entity=answer)
-        vote.save()
+
+    send_reg_email.delay("wizzle3d@gmail.com")
+
     return Response({"msg": "done"}, status=status.HTTP_200_OK)
