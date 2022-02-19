@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser
+from secrets import token_hex
 
 
-
+class VerificationToken(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    key = models.TextField()
+    sent = models.BooleanField(default=False)
 
 
 class Tag(models.Model):
@@ -23,6 +27,24 @@ class User(AbstractUser):
     interests = models.ManyToManyField(Tag)
 
     REQUIRED_FIELDS = []
+
+    def __str__(self) -> str:
+        return self.email
+
+    @property
+    def verification_token(self):
+        return VerificationToken.objects.get(user=self)
+
+    def generate_verification_token(self):
+        try:
+            token = VerificationToken.objects.get(user=self)
+            token.key = token_hex(32)
+        except VerificationToken.DoesNotExist:
+            token = VerificationToken.objects.create(user=self, key=token_hex(32))
+
+    @verification_token.deleter
+    def verification_token(self):
+        VerificationToken.objects.filter(user=self).delete()
 
 
 class Question(models.Model):
